@@ -37,8 +37,6 @@
 # Ignore bundle
 /vendor/bundle/
 /app/assets/builds/*
+/vendor/javascript/
 !/app/assets/builds/.keep
 
-
-# Ignore vendor
-/vendor/javascript/
