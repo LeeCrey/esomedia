@@ -261,7 +261,7 @@ GEM
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
     stringio (3.0.2)
-    strscan (3.0.2)
+    strscan (3.0.3)
     tailwindcss-rails (2.0.8-x86_64-linux)
       railties (>= 6.0.0)
     temple (0.8.2)

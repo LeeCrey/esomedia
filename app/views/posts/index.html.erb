@@ -1,0 +1,15 @@
+<%= content_for :title_section do %>
+  <title>Home</title>
+<% end %>
+
+<div class="relative md:p-0 w-full h-full lg:w-80p flex flex-col sm:flex-row gap-2 lg:px-2 mx-auto">
+  <%= render 'shared/nav' %>
+
+  <main role="main" class="flex justify-between sm:gap-2 md:gap-1 h-full w-full overflow-x-hidden overflow-y-auto">
+    <section class="sm:overflow-y-auto sm:max-h-screen md:w-3/5 max-w-xl w-full">
+      <%= render partial: 'posts/post', collection: @posts, as: :post_object %>
+    </section>
+
+    <%= render 'shared/side' %>
+  </main>
+</div>

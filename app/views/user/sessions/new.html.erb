@@ -1,0 +1,54 @@
+<%= content_for :title_section do %>
+ <title>Login</title>
+<% end %>
+
+<%# INPUT %>
+<% input_class = 'border-none bg-gray-100 rounded p-3 w-full focus:outline-none focus:outline-none sm:p-3' %>
+<%# input => dark %>
+<% input_class += ' dark:border-none dark:bg-dark-btn dark:text-on-dark-2' %>
+<%# LABEL %>
+<% klass_for_label = 'dark:text-on-dark-1 font-semibold block mb-1 text-gray-600' %>
+<%# DIV %>
+<% klas_for_div = 'dark:text-white my-8 sm:my-4 text-gray-600 dark:text-white dark:opacity-60' %>
+
+<div class="flex items-center justify-center h-full dark:bg-dark-primary">
+  <div class="bg-white dark:bg-dark-onPrimary w-full h-full sm:h-98p sm:w-desktop sm:h-3/4 px-4 rounded-lg" data-controller="login">
+    <%# theme %>
+		<div class="text-right  mt-3" data-controller="application">
+			<input type="checkbox" name="theme" id="theme" class="hidden" data-application-target="theme" data-action="change->application#toggleTheme">
+			<label for="theme" class="flex items-center p-1 w-12 h-6 dark:bg-dark-btn bg-gray-300 justify-between rounded-xl">
+				<i class="bx bxs-moon text-gray-300"></i>
+				<i class="bx bxs-sun dark:text-white"></i>
+				<span class="trasition duration-500 bg-white dark:bg-dark-primary w-5 h-5 rounded-full absolute"></span>
+			</label>
+		</div>
+
+    <p class="p-2 text-center sm:mt-2 text-red-700 mt-10 dark:text-white opacity-60"><%= alert %></p>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
+      <div class="<% klas_for_div %>">
+        <%= f.label :email, class: klass_for_label %>
+        <%= f.email_field :email, class: input_class, placeholder: 'JohnDoe@gmail.com', required: true %>
+      </div>
+
+      <div class="<% klas_for_div %> relative">
+        <%= f.label :password, class: klass_for_label %>
+        <%= f.password_field :password, class: input_class, required: true, data: { login_target: 'password' } %>
+        <div class="absolute top-0 right-0 bottom-0 flex items-center">
+          <span class="dark:text-on-dark-2 bx bx-show bx-sm flex items-center mr-2 text-gray-600" data-action="click->login#togglePassword"></span>
+        </div>
+        <p class="text-right text-btn"><%= link_to 'Forgot your password?', new_password_path(resource_name) %> <p>
+      </div>
+
+      <div class="my-8 sm:my-4 py-4">
+        <%= f.submit 'Log in', class: 'dark:hover:text-blue-300 hover:cursor-pointer dark:text-on-dark-1 dark:bg-dark-btn font-semibold w-full p-3 text-white bg-btn rounded' %>
+      </div>
+    <% end %>
+
+    <div class="my-4">
+      <p class="p-2 dark:text-on-dark-2 text-center font-semibold text-gray-600">
+        Need an account? <%= link_to 'Sign up', new_registration_path(resource_name), class: 'dark:text-btn text-link' %>
+      </p>
+    </div>
+  </div>
+</div>

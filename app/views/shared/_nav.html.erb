@@ -1,0 +1,82 @@
+<%
+=begin%>
+  NAVIGATION(1)
+	==================
+		=> mobile phones
+			=> section 1.1
+		=> tables and above
+			=> section 1.2
+
+  NAVIGATION ITEMS(2)
+	==================
+		=> mobile phones
+			=> section 1.1
+		=> tables and above
+			=> section 1.2
+<%
+=end%>
+
+<%# NAVIGATION %>
+<%# section 2 %>
+<% nav_class = 'bg-white sticky top-0 p-2 flex justify-between items-center sm:left relative ' %>
+<%# dark theme 2.2 %>
+<% nav_class += 'dark:bg-dark-onPrimary dark:text-white dark:text-opacity-60 ' %>
+<%# sm 2.3 %>
+<% nav_class += 'sm:max-w-side sm:h-screen sm:inline-block sm:overflow-y-auto sm:p-4 sm:max-w-92 sm:h-y-auto ' %>
+<%# md 2.4 %>
+<% nav_class += 'lg:w-side' %>
+
+<%# NAVIGATION ITEM %>
+<%# section 1 %>
+<%# section 1.1 %>
+<% nav_item_class = 'text-gray-500 flex items-center p-2 text-base leading-6 font-medium rounded-full ' %>
+<%# dark theme 1.1 %>
+<% nav_item_class += 'dark:text-white dark:text-opacity-60 text-dark-primary ' %>
+<%# section 1.2 %>
+<% nav_item_class += 'sm:hover:bg-gray-200 sm:my-4 ' %>
+<%# dark theme 1.2 %>
+<% nav_item_class += 'sm:dark:hover:bg-gray-800 sm:dark:hover:text-blue-300 ' %>
+<%# end of nav items %>
+
+<% home_active = current_page? root_path %>
+<% users_active = current_page? users_path %>
+<% chat_active = current_page? chats_path %>
+
+<% nav_items = [{ url: root_path, icon: 'home', text: 'Home', active: home_active }] %>
+<% nav_items << { url: users_path, icon: 'users', text: 'Friends', active: users_active } %>
+<% nav_items << { url: chats_path, icon: 'chat', text: 'Chats', active: chat_active } %>
+<% nav_items << { url: chats_path, icon: 'notification', text: 'Notifications', active: false } %>
+
+<% nav_items << { url: current_user, icon: 'user', text: 'Profile' } %>
+<% nav_items << { url: chats_path, icon: 'setting', text: 'Settings' } %>
+
+<nav class="<%= nav_class %>">
+	<div class="flex items-center justify-between">
+		<button class="hidden bx bx-menu bx-sm shadow-sm text-gray-500 p-1 rounded-sm sm:rounded-lg border dark:border-dark-primary"></button>
+
+		<%# theme %>
+		<div class="text-right hidden lg:flex" data-controller="application">
+			<input type="checkbox" name="theme" id="theme" class="hidden" data-application-target="theme" data-action="change->application#toggleTheme">
+			<label for="theme" class="flex items-center p-1 w-12 h-6 dark:bg-dark-btn bg-gray-300 justify-between rounded-xl">
+				<i class="bx bxs-moon text-gray-300"></i>
+				<i class="bx bxs-sun dark:text-white"></i>
+				<span class="trasition duration-500 bg-white dark:bg-dark-primary w-5 h-5 rounded-full absolute"></span>
+			</label>
+		</div>
+	</div>
+
+	<% nav_items.each do |item| %>
+		<% class_item = nav_item_class %>
+		<% class_item += 'sm:bg-gray-200 sm:dark:bg-gray-800 sm:dark:text-blue-300' if item[:active] %>
+		<%# don't display setting in mobile phones %>
+		<% class_item += ' hidden sm:block' if item[:icon] == 'setting' %>
+		<% icon_name = 'bx bx-sm sm:w-12 ' %>
+		<% icon_name +=  "#{item[:icon]}-filled sm:" if item[:active] %>
+		<% icon_name += item[:icon] %>
+
+		<%= link_to item[:url], class: class_item do %>
+			<i class="<%= icon_name %>"></i>
+			<span class="hidden lg:inline-block"><%= item[:text] %></span>
+		<% end %>
+	<% end %>
+</nav>

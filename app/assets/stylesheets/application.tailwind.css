@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* dark theme */
+  .text-on-dark-1 {
+    color: white;
+    opacity: 70%;
+  }
+  .text-on-dark-2 {
+    color: white;
+    opacity: 60%;
+  }
+
+  .post {
+    @apply w-full shadow-sm p-3 my-2 md:p-5 bg-white;
+  }
+
+  /* ICONS */
+  /* OUTLINED */
+  .home:before {
+    content: "\eb12";
+  }
+  .users:before {
+    content: "\eaff";
+  }
+  .chat:before {
+    content: "\ea40";
+  }
+  .notification:before {
+    content: "\e9d2";
+  }
+  .user::before {
+    content: "\ec63";
+  }
+  .setting::before{
+    content: "\ea6e";
+  }
+
+  /* FILLED */
+  .home-filled:before {
+    content: "\ede7";
+  }
+  .users-filled:before {
+    content: "\edd6";
+  }
+  .chat-filled:before {
+    content: "\ed2d";
+  }
+  .notification-filled:before {
+    content: "\ecc9";
+  }
+}

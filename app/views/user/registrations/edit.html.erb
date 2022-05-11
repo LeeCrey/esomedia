@@ -1,0 +1,105 @@
+<%= content_for :title_section do %>
+ <title>Edit Account</title>
+<% end %>
+
+<% klaz = 'bg-white dark:bg-app border w-full h-98p sm:w-desktop px-4 rounded overflow-y-auto' %>
+<%= tag.div '', class: klaz, data: { controller: 'registration--edit registration--password' } do %>
+  <p class="sm:mt-2 text-tint mt-5 bx bxs-left-arrow-circle bx-sm" data-action="click->registration--edit#redirectBack"></p>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { turbo: false }, method: :put }) do |f| %>
+    <%= render "user/shared/error_messages", resource: resource %>
+
+    <div>
+      <% klass_for_label = 'font-semibold block mb-1 text-gray-600' %>
+      <% klass_for_input = 'valid:bg-none valid:text-gray-600 disabled:text-gray-600 focus:text-gray-600 focus:outline-none border border-gray-300 rounded p-3 sm:p-2 w-full' %>
+      <% klass_for_div = 'my-6 sm:my-4' %>
+
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :first_name, class: klass_for_label + ' required' %>
+        <%= f.text_field :first_name, class: klass_for_input, placeholder: 'John', required: true %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :last_name, class: klass_for_label %>
+        <%= f.text_field :last_name, class: klass_for_input, placeholder: 'Doe(Optional)' %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :username, class: klass_for_label %>
+        <%= f.text_field :username, class: klass_for_input %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div, data: { registration__edit_biographyCount_value: "1" }  do %>
+        <% place_holder = 'Describe yourself in a sentence. 200 characters max.' %>
+        <%= f.label :biography, class: klass_for_label %>
+        <%= f.text_area :biography, class: (klass_for_input + ' resize-none'), data: {
+          registration__edit_target: 'biography', action: 'input->registration--edit#changeCharsCount' }, placeholder: place_holder %>
+        <div class="flex justify-between">
+          <span class="text-sm text-gray-600" data-registration--edit-target="biographyCharsCount"></span>
+          <span class="border text-gray-600 p-1 rounded hover:cursor-pointer" data-action="click->registration--edit#clearChars">Clear</span>
+        </div>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div do %>
+        <%= f.label :hometown, class: klass_for_label %>
+        <%= f.text_field :hometown, class: klass_for_input %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div do %>
+        <%= f.label :current_city, class: klass_for_label %>
+        <%= f.text_field :current_city, class: klass_for_input %>
+      <% end %>
+
+      <% klass_for_select = 'text-gray-600 border border-gray-300 focus:text-gray-600 bg-transparent border rounded p-3 sm:p-2 w-full focus:outline-none' %>
+      <%= tag.div '', class: klass_for_div do %>
+        <%= f.label :gender, class: klass_for_label + ' required' %>
+        <%= f.select :gender, { Male: 1, Female: 0 }, {}, class: klass_for_select, required: true %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div do %>
+         <%= f.label :birthdate, class: klass_for_label + ' required' %>
+         <%= f.date_field :birthdate, class: klass_for_input %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div do %>
+        <%= f.label :country, class: klass_for_label + ' required' %>
+        <%= f.select :country, CS.countries.values.sort, {}, class: klass_for_select, required: true %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div do %>
+        <%= f.label :email, class: klass_for_label %>
+        <%= f.email_field :email, class: klass_for_input, disabled: true %>
+      <% end %>
+
+      <div class="my-6 sm:my-4 relative" data-controller="registration--password">
+        <%= f.label :password, class: klass_for_label %>
+        <%= f.password_field :password, class: klass_for_input, minlength: @minimum_password_length,
+          data: { registration__password_target: 'password' } %>
+        <span class="text-gray-600 bx bx-show text-tint bx-sm absolute mt-1 top-8 right-0 mr-2"></span>
+        <% if @minimum_password_length %>
+          <span class="text-sm text-gray-600">(<%= @minimum_password_length %> characters minimum)</span>
+          <span class="text-sm text-gray-600 text-red-600 block hidden">Password doesn't match</span>
+        <% end %>
+      </div>
+
+      <div class="my-6 sm:my-4 relative">
+        <%= f.label :password_confirmation, class: klass_for_label %>
+        <%= f.password_field :password_confirmation, class: klass_for_input, minlength: @minimum_password_length,
+          data: { action: 'input->registration--edit#checkPasswordConfirmation' }, class: klass_for_input %>
+        <i class="bx bx-sm absolute text-tint top-1/2 right-0 mr-2"></i>
+        <span class="text-sm text-gray-600 text-red-600" data-registration--edit-target="confirmationError"></span>
+      </div>
+
+      <div class="my-6 sm:my-4 relative">
+        <%= f.label :current_password, class: klass_for_label + ' required' %>
+        <%= f.password_field :current_password, class: klass_for_input, required: true,
+          data: { registration_target: 'confirmationPassword' } %>
+        <span class="bx bx-show text-tint bx-sm absolute mt-1 top-8 right-0 mr-2"></span>
+      </div>
+
+      <div class="my-6 sm:my-4 py-4">
+        <%= f.submit 'Save the changes', class: 'font-semibold p-3 ml-1 sm:p-2 text-white bg-btn rounded' %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

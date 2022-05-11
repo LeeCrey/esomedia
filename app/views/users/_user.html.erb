@@ -1,0 +1,33 @@
+<% class_for_div = 'py-2 pl-3 flex justify-between items-center my-1' %>
+<%= tag.div '', id: dom_id(user), class: class_for_div do %>
+  <div class="flex">
+    <%= link_to user, data: { turbo: false } do %>
+    <% klas = 'rounded-full border-none w-8 h-8' %>
+      <% if user.profile.attached? %>
+        <%= image_tag user.profile, class: klas, loading: 'lazy' %>
+      <% else %>
+        <%= image_tag 'male.png', class: klas, loading: 'lazy' %>
+      <% end %>
+    <% end %>
+    <h4 class="ml-2 mt-1 text-tint dark:text-white dark:text-opacity-60"><%= user %></h4>
+    <% if user.verified %>
+      <%= tag.i '', class: 'bx bxs-badge-check text-link mt-2 ml-1' %>
+    <% end %>
+  </div>
+
+  <% # should not be showen for the user itself %>
+  <% # user may request to follow or remove himself/herself, that does't make a sense %>
+  <% if user != current_user %>
+    <% class_for_dark = ' dark:bg-transparent dark:border dark:border-dark-btn dark:text-opacity-60 dark:hover:text-blue-400' %>
+    <% base_class = ' min-w-20 w-28 text-center rounded-xl bg-btn text-white font-semibold py-1' %>
+    <% btn_class = 'focus:cursor-wait hover:cursor-pointer' + class_for_dark + base_class %>
+    <% request_type = follows ? :delete : :post %>
+    <% btn_name = follows ? 'Following' : 'Follow' %>
+
+    <div class="flex outline-none focus:outline-none items-center mr-5 gap-8 text-tint">
+      <%= turbo_frame_tag "#{dom_id(user)}-follow" do %>
+        <%= button_to btn_name, user_follows_path(user), class: btn_class, method: request_type %>
+      <% end  %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,91 @@
+<% post = post_object[:post] %>
+<% voted = post_object[:voted] %>
+
+<article class="post dark:bg-dark-onPrimary">
+  <div class="flex items-center">
+    <%= link_to post.user, class: 'w-10 h-10' do %>
+      <% klass_for_post_owner_profile = 'w-full rounded-full' %>
+      <% if post.user.profile.attached? %>
+        <%= image_tag post.user.profile, class: klass_for_post_owner_profile %>
+      <% else %>
+        <%= image_tag 'male.png', class: klass_for_post_owner_profile %>
+      <% end %>
+    <% end %>
+
+    <div class="ml-2 w-full mb-2">
+      <div class="text-sm flex">
+        <span class="font-semibold text-gray-600 dark:text-on-dark-1"><%= post.user %></span>
+        <% unless current_page? post.user %>
+          <% if post.user.verified %>
+            <i class="bx bxs-badge-check ml-2 mt-0.5 text-link"></i>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="text-gray-500 text-xs flex dark:text-on-dark-2">
+        <% value_for_timeago = post.last_edited_at ? '• Edited' : '' %>
+        <%= tag.time value_for_timeago, class: 'inline-block',
+          data: { controller: 'timeago', timeago_datetime_value: post.created_at.iso8601 } %>
+      </div>
+    </div>
+
+    <div class="post-dropdown relative w-40 text-gray-700 text-right">
+      <button class="bx bx-dots-horizontal-rounded bx-sm focus:outline-none outline-none rounded focus:bg-gray-100"></button>
+
+      <div class="transition duration-500 scale-0 hidden w-32 bg-white mr-12 absolute shadow">
+        <div class="flex items-center py-2">
+          <i class="bx bx-edit bx-sm px-2""></i>
+          <a href="">Edit</a>
+        </div>
+        <div class=" flex items-center py-2">
+          <i class="bx bx-trash bx-sm px-2"></i>
+          <button>Delete</button>
+        </div>
+        <div class="py-2 flex">
+          <i class="bx bx-copy px-2 bx-sm"></i>
+          <span>Copy</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <% if post.present? %>
+    <p class="text-gray-800 dark:text-on-dark-2 text-sm leading-normal md:leading-relaxed"><%= post %></p>
+  <% end %>
+
+  <% unless post.photos_count == 0 %>
+    <div class="mt-1">
+      <% post.photos.each do |photo| %>
+        <%= image_tag photo, class: 'rounded-lg swiper-slide', load: 'lazy' %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= turbo_frame_tag dom_id(post) do %>
+    <div class="flex items-center justify-between text-gray-500 text-sm">
+      <div class="w-50 flex w-20 gap-5 py-1">
+        <% if voted %>
+          <%= button_to '', post_votes_path(post), method: :delete, class: 'bx bxs-heart bx-sm  bx-sm text-rose-600 outline-none focus:outline-none' %>
+        <% else %>
+          <%= button_to '', post_votes_path(post), method: :post, class: 'bx bx-heart bx-sm' %>
+        <% end %>
+        <%= link_to '', post, data: { turbo: false }, class: 'bx bx-message-rounded bx-sm' %>
+      </div>
+
+      <div class="text-gray-500">
+        <% if post.cached_votes_total != 0 %>
+          <div class="font-semibold text-sm mt-2 mb-4 mr-1 gap-1">
+            <span><%= post.cached_votes_total %> Likes</span>
+          </div>
+        <% end %>
+
+        <%= '•' if (post.cached_votes_total != 0 && post.comments_count != 0) %>
+
+        <% if post.comments_count != 0 %>
+          <span class="font-semibold text-sm mt-2 mb-4">
+            <span><%= post.comments_count %> Comments</span>
+          </span>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</article>

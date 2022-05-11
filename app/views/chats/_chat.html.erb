@@ -1,0 +1,11 @@
+<% class_for_div = 'bg-white py-2 pl-3 flex items-center my-1' %>
+
+<%= link_to chat_path(chat), class: class_for_div do %>
+  <% klas = 'rounded-full border-none w-8 h-8' %>
+  <% if chat.photo.attached? %>
+    <%= image_tag chat.photo, class: klas, loading: 'lazy' %>
+  <% else %>
+    <%= image_tag 'male.png', class: klas, loading: 'lazy' %>
+  <% end %>
+  <h4 class="ml-2 mt-1 text-tint"><%= chat %></h4>
+<% end %>

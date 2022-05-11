@@ -1,0 +1,114 @@
+<%= content_for :title_section do %>
+  <%= tag.title @user %>
+<% end %>
+
+<% klaz = 'bg-app w-full sm:w-full xl:w-desktop bg-white h-full w-70 mx-auto overflow-y-scroll relative' %>
+<%= tag.div '', class: klaz, data: { controller: 'user'} do %>
+  <% if @user.cover_picture.attached? %>
+    <% cover_picture_url = url_for_image @user.cover_picture %>
+    <div style="background-image: <%= url(cover_picture_url) %>" >
+  <% else %>
+    <div class="bg-profile">
+  <% end %>
+  <%# end of div open tag %>
+
+    <% klass_list = 'm-3 bg-white p-0.5 flex items-center rounded-full bx bxs-left-arrow-circle bx-sm' %>
+    <%= tag.i '', class: klass_list, data: { action: 'click->user#redirectBack' } %>
+    <div class="h-40 flex items-center justify-center">
+      <% klass_for_profile_image = 'h-36 w-36 bg-white border border-white p-1 rounded-full transform translate-y-16' %>
+      <% profile_image_url = @user.profile.attached? ? (url_for_image(@user.profile)) : ('male.png') %>
+      <%= image_tag profile_image_url, class: klass_for_profile_image %>
+    </div>
+
+    <% is_current_user = current_user.id == @user.id %>
+    <div class="p-2 bg-white rounded-t-lg">
+      <div class="text-center mt-14">
+        <h1 class="text-xl text-gray-700 capitalize font-bold mt-2"><%= @user %></h1>
+        <% if @user.username.present? %>
+          <span class="font-semibold text-gray-700 username-if-exist">@<%= @user.username %></span>
+        <% end %>
+
+        <% span_content = { posts: @user.posts_count } %>
+
+        <% if is_current_user %>
+          <% span_content[:comments] = @user.comments_count %>
+          <% span_content[:blocked] = @user.blocked_users_count %>
+        <% else %>
+          <% span_content[:following] = @user.followings_count %>
+          <% span_content[:followers] = @user.followers_count %>
+        <% end %>
+
+        <div>
+          <% div_klaz = 'p-2 text-gray-600 inline-block capitalize' %>
+          <% span_content.each do |key, value| %>
+            <%= tag.div '', class: div_klaz do %>
+              <%= tag.span value, class: 'block font-bold' %>
+              <%= tag.span key, class: 'block' %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+      <% if is_current_user %>
+        <div class="text-center">
+          <%= link_to 'Edit Profile', edit_user_registration_path, class: 'inline-block text-center font-semibold px-3 py-1 rounded-xl bg-btn text-white' %>
+        </div>
+      <% else %>
+        <div class="text-center">
+          <% follows = current_user.follows?(@user) %>
+          <%= render 'follows/follow', { user: @user, follows: follows } %>
+        </div>
+      <% end %>
+      <%= tag.p @user.biography, class: 'border p-2 rounded mt-2' if @user.biography.present? %>
+    </div>
+
+    <div class="bg-white p-2 text-gray-600 capitalize">
+      <% info = [{
+        class_name: 'male', value: @user.gender }, {
+        class_name: 'time', value: @user.birthdate }, {
+        class_name: 'heart', value: 'single' }, {
+        class_name: 'globe', value: @user.country }] %>
+
+      <% info << { class_name: 'home', value: @user.hometown } if @user.hometown.present? %>
+      <% info << { class_name: 'map-pin', value: @user.current_city } if @user.current_city.present? %>
+
+      <%# iterate over arrow to show informations %>
+      <% info.each do |infor| %>
+        <%= tag.div '', class: 'my-1 flex items-center' do %>
+          <%= tag.i '', class: ('bx bx-' + infor[:class_name] + ' bx-sm w-9') %>
+          <%= tag.span infor[:value] %>
+        <% end %>
+      <% end %>
+
+      <% if is_current_user %>
+        <% f_class = 'text-btn ml-1 font-semibold' %>
+        <% icon_name = 'bx bx-rss bx-sm w-9' %>
+        <% klass_for_div = 'my-1 flex items-center' %>
+
+        <%= tag.div '', class: klass_for_div do %>
+          <%= tag.i '', class: icon_name %>
+          <span>followers</span>
+          <% if @user.followings_count == 0 %>
+            <%= tag.span @user.followers_count, class: f_class %>
+          <% else %>
+            <%= link_to @user.followers_count, user_followers_path(@user), class: f_class %>
+          <% end %>
+        <% end %>
+
+        <%= tag.div '', class: klass_for_div do %>
+          <%= tag.i '', class: icon_name %>
+          <span>following</span>
+          <% if @user.followings_count == 0 %>
+            <%= tag.span @user.followings_count, class: f_class %>
+          <% else %>
+            <%= link_to @user.followings_count, user_followings_path(@user), class: f_class %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex-col">
+    <%= render partial: 'posts/post', collection: @posts %>
+  </div>
+<% end %>

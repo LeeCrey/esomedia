@@ -1,0 +1,19 @@
+<%= content_for :title_section do %>
+  <title>Find Friends</title>
+<% end %>
+
+<input type="checkbox" name="hiddenchexbox" id="sidebar_menu" class="hidden">
+
+<div class="relative w-full sm:w-full xl:w-desktop h-full w-70 m-auto overflow-hidden">
+  <div class="app w-full h-full overflow-y-scroll overflow-x-hidden bg-gray-100">
+    <%= render 'shared/nav' %>
+
+    <div class="w-full bg-white p-2 mt-2 divide-y divide-gray-100">
+      <% cache @users do %>
+        <%= render @users, { follows: false } %>
+      <% end %>
+    </div>
+  </div>
+
+  <%= render 'shared/sidebar' %>
+</div>

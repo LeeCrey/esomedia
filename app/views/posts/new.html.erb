@@ -1,0 +1,24 @@
+<%= content_for :title_section do %>
+  <title>New Post</title>
+<% end %>
+
+<div class="sm:w-full w-full flex-col xl:w-desktop bg-gray-100 h-full w-70 m-auto overflow-hidden" data-controller="application">
+  <p class="bx bxs-left-arrow-circle bx-sm w-full text-tint mt-1 p-2 bg-white" data-action="click->application#redirectBack"></p>
+
+  <%= form_for(@post, data: { turbo: false }) do |form| %>
+    <% klass = 'w-full bg-gray-100 p-3 resize-none border border-gray-300 outline-none' %>
+    <% msg = 'Write post content ...' %>
+    <%= form.text_area :content, class: klass, spellcheck: false, placeholder: msg %>
+
+    <div class="flex text-gray-500 m-2">
+      <span class="count ml-auto text-gray-400 text-xs font-semibold">0/300</span>
+    </div>
+
+    <%= form.file_field :photos, class: 'hiddesn', multiple: true %>
+
+    <div class="flex justify-between">
+      <label for="post_photo" class="bx bx-camera bx-md text-tint cursor-pointer hover:text-gray-700"></label>
+      <%= form.submit :Post, class: 'border rounded p-1 px-2 font-semibold cursor-pointer' %>
+    </div>
+  <% end %>
+</div>

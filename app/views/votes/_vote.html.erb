@@ -1,0 +1,28 @@
+<%= turbo_frame_tag dom_id(post) do %>
+  <div class="flex items-center justify-between text-gray-500 text-sm">
+    <div class="w-50 flex w-20 gap-5 py-1">
+      <% if voted %>
+        <%= button_to '', post_votes_path(post), method: :delete, class: 'bx bxs-heart bx-sm  bx-sm text-rose-600 outline-none focus:outline-none' %>
+      <% else %>
+        <%= button_to '', post_votes_path(post), method: :post, class: 'bx bx-heart bx-sm' %>
+      <% end %>
+      <%= link_to '', post, data: { turbo: false }, class: 'bx bx-message-rounded bx-sm' %>
+    </div>
+
+    <div class="text-gray-500">
+      <% if post.cached_votes_total != 0 %>
+        <div class="font-semibold text-sm mt-2 mb-4 mr-1 gap-1">
+          <span><%= post.cached_votes_total %> Likes</span>
+        </div>
+      <% end %>
+
+      <%= '•' if (post.cached_votes_total != 0 && post.comments_count != 0) %>
+
+      <% if post.comments_count != 0 %>
+        <span class="font-semibold text-sm mt-2 mb-4">
+          <span><%= post.comments_count %> Comments</span>
+        </span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

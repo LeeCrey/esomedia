@@ -1,0 +1,13 @@
+<% if follows %>
+  <% btn_class = 'focus:cursor-wait focus:disabled inline-block w-28 text-center font-semibold py-1 rounded-xl bg-following text-white' %>
+  <% btn_name = 'Following' %>
+  <% request_type = :delete %>
+<% else %>
+  <% btn_class = 'focus:cursor-wait focus:disabled hover:cursor-pointer w-28 text-center font-semibold py-1 rounded-xl bg-btn text-white' %>
+  <% btn_name = 'Follow' %>
+  <% request_type = :post %>
+<% end %>
+
+<%= turbo_frame_tag "#{dom_id(user)}-follow" do %>
+  <%= button_to btn_name, user_follows_path(user), class: btn_class, method: request_type %>
+<% end  %>

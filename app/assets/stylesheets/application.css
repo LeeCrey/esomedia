@@ -13,3 +13,87 @@
  *= require_tree .
  *= require_self
  */
+
+/* Login */
+/* GLOABAL */
+/* chrome, safarfi, opera */
+*::-webkit-scrollabar {
+  display: none;
+}
+
+*{
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* firefox */
+  box-sizing: border-box;
+  outline: none;
+}
+
+*:focus{
+  outline: none;
+}
+
+/* required field */
+label.required::after {
+  content: ' *';
+}
+
+/*  */
+#theme:checked + label > span {
+ transform:  translateX(22px);
+ transition: .5s ease;
+}
+
+/* registration */
+.correct {
+  color: green;
+  -webkit-animation: flashing 1.5s infinite linear;
+  animation: flashing 1.5s forwards linear;
+}
+.correct::before {
+  content: "\ea41";
+}
+.incorrect{
+  color: red;
+  -webkit-animation: tada 1.5s ease infinite;
+  animation: tada 1.5s ease infinite;
+}
+.incorrect::before {
+  content: "\ec8d";
+}
+
+/* .app {
+  transition: 0.7s ease;
+}
+.sidebar {
+  transform: translateX(-100%);
+  transition: 0.7s ease;
+}
+
+#sidebar_menu:checked ~ div > div:last-of-type {
+  overflow: hidden;
+  transform: translateX(0);
+  transition: transform 0.7s ease;
+}
+
+#sidebar_menu:checked ~ div > div:first-of-type  label::before {
+  content: "\ec8d";
+}
+
+#sidebar_menu:checked ~ div > div:first-of-type {
+  transform: translateX(93%);
+  transition: 0.7s ease;
+} */
+
+
+
+/* Login */
+#theme:checked + label > span {
+  transform:  translateX(22px);
+  transition: .5s ease;
+}
+
+.post-dropdown > button:focus ~ div {
+  display: block;
+  scale: 1;
+  transition: scale 0.5 ease;
+}

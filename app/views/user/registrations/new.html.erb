@@ -1,0 +1,70 @@
+<%= content_for :title_section do %>
+ <title>Sign up</title>
+<% end %>
+
+<div class="flex items-center justify-center h-full dark:bg-dark-primary overflow-y-auto">
+  <div class="bg-white dark:bg-dark-onPrimary w-full h-98p my-auto sm:w-desktop px-4 rounded" data-controller="registration--password">
+    <p class="dark:opacity-60 sm:mt-2 dark:text-white text-tint mt-4 bx bxs-left-arrow-circle bx-sm" data-action="click->registration--password#redirectBack"></p>
+
+    <%= render "devise/shared/error_messages", resource: resource %>
+
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { turbo: false }, class: 'w-full' }) do |f| %>
+      <% klass_for_label = 'dark:text-on-dark-1 font-semibold block mb-1 text-gray-600' %>
+      <% klass_for_input = 'dark:border-none dark:bg-dark-btn dark:text-on-dark-2 border-gray-300 valid:text-gray-600 focus:text-gray-600 rounded p-3 sm:p-2 w-full focus:outline-none' %>
+      <% klass_for_div = 'my-6 sm:my-4 dark:opacity-60' %>
+
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :first_name, class: klass_for_label %>
+        <%= f.text_field :first_name, class: klass_for_input, placeholder: 'John', required: true %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :last_name, class: klass_for_label %>
+        <%= f.text_field :last_name, class: klass_for_input, placeholder: 'Doe(Optional)' %>
+      <% end %>
+
+      <% klass_for_select = 'dark:text-on-dark-2 dark:border-dark-btn dark:text-dark-1 border border-gray-300 focus:text-gray-600 bg-transparent border rounded p-3 sm:p-2 w-full focus:outline-none' %>
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :gender, class: klass_for_label %>
+        <%= f.select :gender, { Male: 1, Female: 0 }, {}, class: klass_for_select, required: true %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :birthdate, class: klass_for_label %>
+        <%= f.date_field :birthdate, class: klass_for_input %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :country, class: klass_for_label %>
+        <%= f.select :country, CS.countries.values.sort, {}, class: klass_for_select, required: true %>
+      <% end %>
+
+      <%= tag.div '', class: klass_for_div  do %>
+        <%= f.label :email, class: klass_for_label %>
+        <%= f.email_field :email, class: klass_for_input, placeholder: 'JohnDoe@gmail.com', required: true %>
+      <% end %>
+
+      <div class="my-6 sm:my-4 dark:opacity-60 relative">
+        <%= f.label :password, class: klass_for_label %>
+        <%= f.password_field :password, class: klass_for_input, minlength: @minimum_password_length,
+          data: { registration__password_target: 'password' } %>
+        <div class="absolute top-0 bottom-0 right-0 flex items-center mr-2">
+          <span class="dark:text-on-dark-2 bx bx-show text-gray-600 bx-sm" data-action="click->registration--password#togglePassword"></span>
+        </div>
+        <% if @minimum_password_length %>
+          <span class="text-gray-500 dark:text-on-dark-2 font-sm">(<%= @minimum_password_length %> characters minimum)</span>
+        <% end %>
+      </div>
+
+      <div class="my-6 sm:my-4 dark:opacity-60 relative">
+        <%= f.label :password_confirmation, class: klass_for_label %>
+        <%= f.password_field :password_confirmation, data: { action: 'input->registration--password#checkPasswordConfirmation'}, class: klass_for_input %>
+        <i class="bx bx-sm absolute text-tint top-1/2 right-0 mr-2" data-registration--password-target="status" id="status_icon_hidden"></i>
+      </div>
+      <div class="my-6 sm:my-4 py-4">
+        <%= f.submit 'Sign up', data: { registration__password_target: 'btn' },
+          class: 'dark:bg-dark-btn dark:text-on-dark-1 font-semibold w-full p-3 sm:p-2 text-white bg-btn rounded' %>
+      </div>
+    <% end %>
+  </div>
+</div>

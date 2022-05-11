@@ -1,0 +1,27 @@
+<div class="relative w-full sm:w-full xl:w-desktop bg-gray-100 h-full w-70 m-auto overflow-y-scroll">
+  <%= render @post %>
+
+  <% if @post.commentable || (@post.user_id == current_user.id) %>
+    <% if @post.comments_count == 0 %>
+      <div class="w-full opacity-40 mt-10 text-center">
+        <h1>No comments yet!</h1>
+        <h1>Be the first to comment</h1>
+      </div>
+    <% else %>
+      <div class="comments bg-white mt-1 divide-y divide-400-y">
+        <%= render @post.comments %>
+      </div>
+    <% end %>
+    <div class="text-tint shadow w-full flex items-center p-2 bg-white">
+      <div class="w-6">
+        <%= image_tag 'male.png', class: 'rounded-full mr-1' %>
+      </div>
+      <input class="rounded post-comment outline-none focus:outline-none w-full ml-1 border border-gray-400" type="text" placeholder="Write a comment ..." />
+      <span class="flex items-center mr-1 bx bx-send bx-sm"></span>
+    </div>
+  <% else %>
+    <div class="w-full opacity-40 mt-10 text-center">
+      <h1>Comment is turned off!</h1>
+    </div>
+  <% end %>
+</div>

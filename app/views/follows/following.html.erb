@@ -1,0 +1,19 @@
+<div class="sm:w-full xl:w-desktop bg-gray-100 h-full w-70 m-auto">
+  <div class="bg-white w-full h-full overflow-y-scroll divide-y divide-gray-10" data-controller="user">
+    <div class="h-8 p-2 top-0 w-full flex items-center justify-between" data-controller="application">
+      <i class="bx bxs-left-arrow-circle bx-sm text-tint" data-action="click->application#redirectBack"></i>
+      <% if @users.ids.count == 30 %>
+        <%= link_to '', followings_user_path(@user, page: (@page + 1)), class: 'text-tint bx bxs-right-arrow-circle'%>
+      <% end %>
+    </div>
+
+    <% if @follows %>
+      <%= render @users, { user: @user, follows: @follows, f_path: true } %>
+    <% else %>
+      <% @users.each do |user| %>
+        <% follows = @following_ids.include? user.id %>
+        <%= render user, { user: user, follows: follows, f_path: true } %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
