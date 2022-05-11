@@ -44,6 +44,7 @@ class User < ApplicationRecord
   end
 
   ### I don't want to destroy
+  # has_many :seen_posts
   has_many :chat_rooms
   has_many :chat_room_users, through: :chat_rooms
   has_many :messages
