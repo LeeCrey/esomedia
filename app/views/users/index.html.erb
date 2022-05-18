@@ -2,18 +2,15 @@
   <title>Find Friends</title>
 <% end %>
 
-<input type="checkbox" name="hiddenchexbox" id="sidebar_menu" class="hidden">
 
-<div class="relative w-full sm:w-full xl:w-desktop h-full w-70 m-auto overflow-hidden">
-  <div class="app w-full h-full overflow-y-scroll overflow-x-hidden bg-gray-100">
-    <%= render 'shared/nav' %>
+<div class="relative md:p-0 w-full h-full lg:w-80p flex flex-col sm:flex-row gap-2 lg:px-2 mx-auto">
+  <%= render 'shared/nav' %>
 
-    <div class="w-full bg-white p-2 mt-2 divide-y divide-gray-100">
-      <% cache @users do %>
-        <%= render @users, { follows: false } %>
-      <% end %>
-    </div>
-  </div>
+  <main role="main" class="sm:gap-2 md:gap-1 h-full w-full overflow-x-hidden sm:max-w-sm">
+    <section class="bg-white sm:overflow-y-auto sm:max-h-screen dark:bg-dark-onPrimary max-w-xl w-full">
+      <%= render @users, { follows: false } %>
+    </section>
 
-  <%= render 'shared/sidebar' %>
+    <%= render 'shared/side' %>
+  </main>
 </div>

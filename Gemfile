@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.2'
+ruby '3.0.4'
 
 gem 'rails', '~> 7.0.2', '>= 7.0.2.3'
 gem 'puma', '~> 5.0'
@@ -40,7 +40,7 @@ end
 group :development do
   gem 'rdoc'
   gem 'bullet'
-  gem 'psych', '~> 4.0'
+  gem 'psych'
   gem 'web-console'
   gem 'rack-mini-profiler'
 
